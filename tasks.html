@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список Завдань</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .LogoLine {
+            width: 100%;
+            height: 200px;
+            display: flex;
+            text-align: center;
+            position: fixed;
+            color: orange;
+            justify-content: center;
+            align-items: center;
+        }
+        .LogoLine p {
+            font-weight: bold;
+            font-size: 50px;
+        }
+        .WriteBox {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+            padding-top: 10%;
+        }
+        form {
+            width: 100%;
+            height: 70%;
+            display: flex;
+            flex-direction: column;
+        }
+        #title, #priority, #deadline, #description {
+            width: 400px;
+            height: 50px;
+            display: flex;
+            box-shadow: -1px -2px 5px orange;
+            border: none;
+            cursor: text;
+        }
+        #description {
+            height: 80px;
+            resize: none;
+        }
+        .taskBut {
+            width: 400px;
+            height: 60px;
+            background-color: orange;
+            color: white;
+            cursor: pointer;
+            font-weight: 900;
+            font-size: 25px;
+        }
+        .TaskBox {
+            width: 50%;
+            height: 100%;
+            padding-top: 10%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            text-align: center;
+            flex-direction: column;
+        }
+        .task {
+            border: 2px solid orange;
+            padding: 10px;
+            margin-bottom: 10px;
+            width: 80%;
+            box-shadow: 1px 1px 5px rgba(255, 165, 0, 0.5);
+            background-color: rgba(243, 237, 237, 0.3);
+            color: #000;
+            font-weight: bold;
+            font-size: 25px;
+        }
+.completed {
+    background-color: rgba(149, 208, 149, 0.5) /* Світло-зелений */
+
+}
+
+.overdue {
+    background-color: rgba(212, 106, 106, 0.5) /* Світло-червоний */
+}
+
+        .task p {
+            font-weight: bold;
+        }
+        .taskLog {
+            font-weight: bold;
+            font-size: 30px;
+        }
+        .task-buttons button {
+            margin: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-weight: bold;
+            background-color: orange;
+            color: white;
+            border: none;
+            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        .task-buttons button:hover {
+            background-color: darkorange;
+        }
+        .wrap {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            justify-content: space-between;
+        }
+        header {
+            width: 100%;
+            height: 70px;
+            display: flex;
+            justify-content: space-around;
+            background-color: rgba(0, 0, 0, 0.2);
+            position: fixed;
+            z-index: 1000;
+        }
+        .DeliteForm{
+    width: 100%;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+        .DeliteForm button{
+            width: 400px;
+            height: 50px;
+            background-color: orange;
+            color: white;
+            cursor: pointer;
+            font-weight: 900;
+            font-size: 15px;
+        }
+.DeliteForm input{
+    width: 400px;
+    height: 50px;
+}
+        .CompliteForm{
+    width: 100%;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -100px;
+
+}
+.CompliteForm input{
+width: 400px;
+height: 50px;
+display: flex;
+}
+        .CompliteForm button{
+            width: 400px;
+            height: 60px;
+            background-color: orange;
+            color: white;
+            cursor: pointer;
+            font-weight: 900;
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <header>
+            <p style="font-weight: 900; font-size: 20px; color: orange;">Знайти за категорією</p>
+            <select id="categorySelect">
+                <option value="all">Всі категорії</option>
+            </select>
+            <button onclick="searchTasksByCategory()">Знайти</button>
+        </header>
+        <div class="LogoLine"><p>Список завдань</p></div>
+        <br>
+        <div class="WriteBox">
+            <p style="font-weight: 900; font-size: 30px; color: orange;">Додати завдання</p>
+            <br>
+            <form id="taskForm">
+                <input type="text" id="title" placeholder="Заголовок" required>
+                <br>
+                <textarea id="description" placeholder="Опис" required></textarea>
+                <br>
+                <input type="date" id="deadline" required>
+                <br>
+                <select id="priority">
+                    <option value="low">Низький</option>
+                    <option value="medium" selected>Середній</option>
+                    <option value="high">Високий</option>
+                </select>
+                <br>
+                <input type="text" id="category_name" placeholder="Категорія" required style=" width: 400px;">
+                <br>
+                <button type="submit" class="taskBut">Додати Завдання</button>
+            </form>
+            <br>
+            <br>
+            <div class="DeliteForm">
+                <p style="font-weight: 900; font-size: 30px; color: orange;">Видалити Завдання</p>
+                <br>
+                <input type="text" id="deleteTitle" placeholder="Впишіть назву завдання" required>
+                <br>
+                <button onclick="deleteTask()">Видалити</button>
+            </div>
+
+            <div class="CompliteForm">
+                <p style="font-weight: 900; font-size: 30px; color: orange;">Позначити як виконане</p>
+                <br>
+                <input type="text" id="taskNameToComplete" placeholder="Введіть назву завдання">
+                <br>
+                <button id="markAsCompleted">Позначити як виконане</button>
+            </div>
+
+            
+        </div>
+        <div class="TaskBox"></div>
+    </div>
+
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    
+    fetch('/getTasks', { method: 'GET' })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data); // Перевірте, що в data є task_id
+        data.tasks.forEach(task => {
+            displayTask(task);
+        });
+    })
+    .catch(error => console.error('Error fetching tasks:', error));
+
+    const username = localStorage.getItem('username');
+    if (!username) {
+        alert('Помилка: користувач не знайдений. Перезавантажте сторінку та увійдіть знову.');
+        window.location.href = 'index.html';
+    }
+    getTasks(username);
+    loadCategories();
+});
+
+
+
+
+document.getElementById('taskForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const username = localStorage.getItem('username');
+            const title = document.getElementById('title').value;
+            const description = document.getElementById('description').value;
+            const deadline = document.getElementById('deadline').value;
+            const priority = document.getElementById('priority').value;
+            const category_name = document.getElementById('category_name').value;
+
+            if (!title || !description || !deadline || !category_name) {
+                alert("Будь ласка, заповніть всі поля.");
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:3000/addTask', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, title, description, deadline, priority, category_name })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    displayTask({ id: data.taskId, title, description, deadline, priority, category_name });
+                    document.getElementById('taskForm').reset();
+                } else {
+                    alert(data.message);
+                }
+            } catch (error) {
+                console.error('Error adding task:', error);
+                alert('Сталася помилка при додаванні завдання. Спробуйте ще раз пізніше.');
+            }
+        });
+
+// Завантаження категорій
+function loadCategories() {
+    const categorySelect = document.getElementById('categorySelect');
+
+    fetch('http://localhost:3000/getCategories')
+        .then(response => response.json())
+        .then(data => {
+            categorySelect.innerHTML = '';
+            const allOption = document.createElement('option');
+            allOption.value = 'all';
+            allOption.textContent = 'Всі категорії';
+            categorySelect.appendChild(allOption);
+
+            data.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category.category_name;
+                option.textContent = category.category_name;
+                categorySelect.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Помилка завантаження категорій:', error);
+        });
+}
+
+// Пошук завдань за категорією
+async function searchTasksByCategory() {
+    const username = localStorage.getItem('username');
+    const category = document.getElementById('categorySelect').value;
+
+    try {
+        const response = await fetch(`http://localhost:3000/getTasksByCategory?username=${username}&category=${category}`);
+        const data = await response.json();
+
+        if (data.success) {
+            const taskBox = document.querySelector('.TaskBox');
+            taskBox.innerHTML = '';
+
+            if (data.tasks.length > 0) {
+                // Призначаємо числові значення для приорітетів для сортування
+                const priorityMap = {
+                    'low': 1,
+                    'medium': 2,
+                    'high': 3
+                };
+
+                // Сортуємо завдання за пріоритетом (від високого до низького)
+                data.tasks.sort((a, b) => priorityMap[b.priority] - priorityMap[a.priority]);
+
+                data.tasks.forEach(task => {
+                    const taskElement = document.createElement('div');
+                    taskElement.classList.add('task');
+
+                    // Додаємо класи для підсвічування залежно від статусу
+                    if (task.completed === 1) {
+                        taskElement.classList.add('completed'); // Завдання виконано
+                    } else if (new Date(task.deadline) < new Date()) {
+                        taskElement.classList.add('overdue'); // Дедлайн пройшов
+                    }
+
+                    taskElement.innerHTML = `
+                        <p class="taskLog">${task.title}</p>
+                        <p>Опис: ${task.description}</p>
+                        <p>Кінцевий термін: ${new Date(task.deadline).toLocaleDateString()}</p>
+                        <p>Пріоритет: ${task.priority}</p>
+                        <p>Категорія: ${task.category_name}</p>
+                    `;
+                    taskBox.appendChild(taskElement);
+                });
+            } else {
+                taskBox.innerHTML = '<p>Немає завдань для відображення.</p>';
+            }
+        } else {
+            alert(data.message);
+        }
+    } catch (error) {
+        console.error('Error fetching tasks by category:', error);
+        alert('Сталася помилка при пошуку завдань.');
+    }
+}
+
+
+
+// Отримання всіх завдань
+async function getTasks(username) {
+    try {
+        const response = await fetch(`http://localhost:3000/getTasks?username=${username}`);
+        const data = await response.json();
+
+        if (data.success) {
+            if (data.tasks.length > 0) {
+                data.tasks.forEach(task => {
+                    displayTask(task);
+                });
+            } else {
+                document.querySelector('.TaskBox').innerHTML = '<p>Немає завдань для відображення.</p>';
+            }
+        } else {
+            alert(data.message);
+        }
+    } catch (error) {
+        console.error('Error fetching tasks:', error);
+        alert('Сталася помилка при отриманні завдань.');
+    }
+}
+
+// Відображення завдання
+function displayTask(task) {
+    console.log('Displaying task with ID:', task.task_id); // Логування task_id
+
+    const taskBox = document.querySelector('.TaskBox');
+   // taskElement.setAttribute('data-id', task.task_id);
+    const taskElement = document.createElement('div');
+    taskElement.classList.add('task');
+
+        // Додаємо класи для підсвічування залежно від статусу
+        if (task.completed === 1) {
+        taskElement.classList.add('completed'); // Завдання виконано
+    } else if (new Date(task.deadline) < new Date()) {
+        taskElement.classList.add('overdue'); // Дедлайн пройшов
+    }
+
+    taskElement.innerHTML = `
+        <p class="taskLog">${task.title}</p>
+        <p>Опис: ${task.description}</p>
+        <p>Кінцевий термін: ${task.deadline}</p>
+        <p>Пріоритет: ${task.priority}</p>
+        <p>Категорія: ${task.category_name}</p>
+      
+    `;
+    taskBox.appendChild(taskElement);
+}
+
+
+function deleteTask() {
+            const title = document.getElementById('deleteTitle').value;
+
+            fetch('http://localhost:3000/deleteTask', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Завдання видалено');
+                    location.reload();
+                } else {
+                    alert('Помилка: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error deleting task:', error);
+                alert('Сталася помилка при видаленні завдання.');
+            });
+        }
+
+
+        document.getElementById('markAsCompleted').addEventListener('click', () => {
+    const taskName = document.getElementById('taskNameToComplete').value;
+
+    if (!taskName) {
+        alert('Будь ласка, введіть назву завдання.');
+        return;
+    }
+
+    fetch('http://localhost:3000/markTaskAsCompleted', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ title: taskName })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Завдання успішно позначено як виконане.');
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+});
+
+
+
+</script>
+</body>
+</html>

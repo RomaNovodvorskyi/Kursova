@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+*{
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+    font-family: "Rubik Bubbles", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+body{
+    width: 100%;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    background-image: url('./img/Beckground.jpg'); /* Фонова фотографія */
+  background-size: cover; /* Щоб фотографія покривала весь елемент */
+  background-position: center;
+  backdrop-filter: blur(10px) brightness(20%); /* Розмиття і затемнення фону */
+}
+.wrap{
+    width: 100%;
+    min-height: 110vh;
+    display: flex;
+}
+.wrap2{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content:space-between;
+}
+header{
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: end;
+    padding: 20px;
+}
+header button{
+    width: 150px;
+    height: 30px;
+}
+.LogInBox, .SingUpBox{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 10%;
+}
+.Logo{
+    font-size: 60px;
+    font-weight: 900;
+    color: orange;
+}
+form{
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    color:orange;
+    align-items: center;
+}
+form label{
+    font-weight: 700;
+    font-size: 40px;
+}
+.form-group{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+form input{
+width: 300px;
+height: 30px;
+display: flex;
+box-shadow: -0.5px -0.2px 5px orange;
+border: none;
+z-index: 10;
+
+}
+button{
+    width: 260px;
+    height: 50px;
+    background-color: orange;
+    color: white;
+    cursor: pointer;
+    font-weight: 900;
+    font-size: 15px;
+}
+button:hover{
+    background-color: rgb(249, 174, 35);
+}
+
+.TaskBox{
+    color: white;
+}
